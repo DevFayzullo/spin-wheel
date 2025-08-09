@@ -1,5 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 
+const funFacts = {
+  "🍕 Pizza":
+    "Did you know? The first pizza was made in Naples, Italy, in the 1700s!",
+  "☕ Coffee":
+    "Fun fact: Coffee was originally chewed, not sipped. African tribes mixed it with fat as an energy ball!",
+  "🎁 Gift":
+    "Giving gifts increases oxytocin, the “love hormone”, in both giver and receiver!",
+  "🍔 Burger": "The world’s largest hamburger weighed over 2,000 pounds!",
+  "🍩 Donut":
+    "The first donuts didn’t have holes. The hole was added for more even frying!",
+  "📱 iPhone":
+    "The first iPhone was released in 2007 and changed smartphones forever!",
+};
+
 export default function App() {
   const [items, setItems] = useState([
     "🍕 Pizza",
@@ -52,7 +66,7 @@ export default function App() {
       setIsSpinning(false);
       setSelectedItem(result);
       setHistory((prev) => [result, ...prev]);
-      // setFact(funFacts[result] || "No fun fact available, but still awesome!");
+      setFact(funFacts[result] || "No fun fact available, but still awesome!");
     }, 4000);
   };
 
