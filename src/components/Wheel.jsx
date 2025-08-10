@@ -45,6 +45,7 @@ export default function Wheel({ items, onFinish }) {
                 transformOrigin: "100% 100%",
               }}>
               {item}
+              {console.log(item)}
             </div>
           );
         })}
