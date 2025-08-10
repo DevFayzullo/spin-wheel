@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import spinSound from "../public/spin-sound.mp3";
 const funFacts = {
   "🍕 Pizza":
     "Did you know? The first pizza was made in Naples, Italy, in the 1700s!",
@@ -30,7 +30,7 @@ export default function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [fact, setFact] = useState("");
   const wheelRef = useRef(null);
-  const audioRef = useRef(new Audio("/spin-sound.mp3"));
+  const audioRef = useRef(new Audio(spinSound));
 
   const segmentAngle = 360 / items.length;
 
@@ -115,7 +115,7 @@ export default function App() {
       </div>
 
       <button
-        onClick={spinWheel}
+        onClick={() => spinWheel()}
         disabled={isSpinning}
         className="mt-6 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-lg disabled:opacity-50">
         {isSpinning ? "Spinning..." : "Spin"}
