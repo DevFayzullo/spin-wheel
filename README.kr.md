@@ -16,9 +16,9 @@
 - **Vite** 기반 빠른 개발 환경
 - **Tailwind CSS** 유틸리티 클래스 스타일링
 
-## 📸 미리보기
+<!-- ## 📸 미리보기
 
-![screenshot](./public/screenshot.png)
+![screenshot](./public/screenshot.png) -->
 
 ## 🚀 시작하기
 
@@ -40,9 +40,9 @@ npm install
 npm run dev
 ```
 
-## 🌐 라이브 데모
+<!-- ## 🌐 라이브 데모
 
-<!-- 👉 [라이브 데모 보러가기](https://DevFayzullo.github.io/spin-wheel) -->
+👉 [라이브 데모 보러가기](https://DevFayzullo.github.io/spin-wheel) -->
 
 ## 🛠️ 기술 스택
 
