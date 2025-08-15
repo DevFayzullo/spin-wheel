@@ -15,9 +15,9 @@ Built with **Vite** and styled using **Tailwind CSS**, this project delivers a p
 - Built with **Vite** for fast development
 - Styled with **Tailwind CSS** utility-first classes
 
-## 📸 Preview
+<!-- ## 📸 Preview
 
-![screenshot](./public/screenshot.png)
+![screenshot](./public/screenshot.png) -->
 
 ## 🚀 Getting Started
 
@@ -39,9 +39,9 @@ npm install
 npm run dev
 ```
 
-## 🌐 Live Demo
+<!-- ## 🌐 Live Demo
 
-<!-- 👉 [Click here to view the live demo](https://DevFayzullo.github.io/spin-wheel) -->
+👉 [Click here to view the live demo](https://DevFayzullo.github.io/spin-wheel) -->
 
 ## 🛠️ Tech Stack
 
