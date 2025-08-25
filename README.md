@@ -58,7 +58,7 @@ This project is licensed under the **MIT License**.
 
 ---
 
-📌 Developed by **Your Name**
+📌 Developed by **DevFayzullo**
 
 > “Luck is what happens when preparation meets opportunity.” – Seneca
 
