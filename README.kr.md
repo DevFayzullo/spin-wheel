@@ -59,7 +59,7 @@ npm run dev
 
 ---
 
-📌 제작: **Your Name**
+📌 제작: **DevFayzullo**
 
 > “운은 준비와 기회가 만날 때 생긴다.” – 세네카
 
