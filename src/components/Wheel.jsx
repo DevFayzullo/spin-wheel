@@ -1,61 +1,161 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  cryptoRandomInt,
+  pickIndexFair,
+  contrastOn,
+  PALETTE,
+} from "../utils/wheel";
 
-export default function Wheel({ items, onFinish }) {
+/** Wheel:
+ * - SVG slices for crisp rendering
+ * - Space/Enter to spin
+ * - onSpinStart: callback to start sounds
+ */
+export default function Wheel({
+  items,
+  onFinish,
+  onSpinStart, // start audio outside
+  durationMs = 4000,
+  spins = 5,
+  preventImmediateRepeat = true,
+}) {
   const wheelRef = useRef(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [angle, setAngle] = useState(0);
+  const lastIndexRef = useRef(null);
 
-  const spinWheel = () => {
-    if (isSpinning) return;
+  const sliceAngle = 360 / Math.max(items.length || 1, 1);
 
-    const newAngle = angle + 360 * 5 + Math.floor(Math.random() * 360);
-    const selectedIndex =
-      Math.floor(((360 - (newAngle % 360)) / 360) * items.length) %
-      items.length;
-    const selectedItem = items[selectedIndex];
+  // Build slice paths and labels
+  const slices = useMemo(() => {
+    const radius = 180; // bigger wheel
+    const result = [];
+    for (let i = 0; i < items.length; i++) {
+      const start = (i * sliceAngle - 90) * (Math.PI / 180);
+      const end = ((i + 1) * sliceAngle - 90) * (Math.PI / 180);
+      const x1 = radius * Math.cos(start);
+      const y1 = radius * Math.sin(start);
+      const x2 = radius * Math.cos(end);
+      const y2 = radius * Math.sin(end);
+      const largeArc = sliceAngle > 180 ? 1 : 0;
 
+      const path = `M 0 0 L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+      const mid = ((i + 0.5) * sliceAngle - 90) * (Math.PI / 180);
+      const lx = radius * 0.62 * Math.cos(mid);
+      const ly = radius * 0.62 * Math.sin(mid);
+      const fill = PALETTE[i % PALETTE.length];
+      result.push({ i, path, labelX: lx, labelY: ly, fill });
+    }
+    return result;
+  }, [items.length, sliceAngle]);
+
+  function nextAngleAvoidingRepeat() {
+    if (items.length < 2) return angle + 360 * spins + cryptoRandomInt(360);
+    for (let t = 0; t < 10; t++) {
+      const rand = cryptoRandomInt(360);
+      const end = angle + 360 * spins + rand;
+      const idx = pickIndexFair(items.length, end % 360);
+      if (
+        !preventImmediateRepeat ||
+        lastIndexRef.current === null ||
+        idx !== lastIndexRef.current
+      ) {
+        return end;
+      }
+    }
+    return angle + 360 * spins + cryptoRandomInt(360);
+  }
+
+  const spin = () => {
+    if (isSpinning || items.length < 2) return;
+    const endAngle = nextAngleAvoidingRepeat();
     setIsSpinning(true);
-    setAngle(newAngle);
+    setAngle(endAngle);
 
-    wheelRef.current.style.transition = "transform 4s ease-out";
-    wheelRef.current.style.transform = `rotate(${newAngle}deg)`;
+    // notify parent to start audio
+    onSpinStart?.();
 
-    setTimeout(() => {
+    if (wheelRef.current) {
+      wheelRef.current.style.transition = `transform ${durationMs}ms cubic-bezier(.1,.9,.2,1)`;
+      wheelRef.current.style.transform = `rotate(${endAngle}deg)`;
+    }
+    const finalIdx = pickIndexFair(items.length, endAngle % 360);
+    const result = items[finalIdx];
+    lastIndexRef.current = finalIdx;
+
+    window.setTimeout(() => {
       setIsSpinning(false);
-      onFinish(selectedItem);
-    }, 4000);
+      onFinish?.(result);
+    }, durationMs);
   };
 
-  const segmentAngle = 360 / items.length;
+  // keyboard
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.key === " " || e.key === "Enter") && !isSpinning) {
+        e.preventDefault();
+        spin();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isSpinning]);
 
   return (
-    <div className="relative">
-      <div
-        ref={wheelRef}
-        className="w-[300px] h-[300px] rounded-full border-8 border-gray-700 relative"
-        style={{ transition: "transform 0s" }}>
-        {items.map((item, i) => {
-          const rotate = i * segmentAngle;
-          return (
-            <div
-              key={i}
-              className="absolute w-1/2 h-1/2 origin-bottom-left text-xs font-medium text-center"
-              style={{
-                transform: `rotate(${rotate}deg) translateX(50%)`,
-                transformOrigin: "100% 100%",
-              }}>
-              {item}
-              {console.log(item)}
-            </div>
-          );
-        })}
+    <div className="relative select-none">
+      <div className="relative w-80 h-80 sm:w-96 sm:h-96">
+        <svg
+          className="w-full h-full drop-shadow-xl"
+          viewBox="-200 -200 400 400"
+          ref={wheelRef}
+          aria-label="Spin wheel"
+          role="img">
+          <circle
+            cx="0"
+            cy="0"
+            r="190"
+            fill="#ffffff"
+            stroke="#818CF8"
+            strokeWidth="12"
+          />
+          {slices.map(({ i, path, labelX, labelY, fill }) => (
+            <g key={i}>
+              <path d={path} fill={fill} />
+              <text
+                x={labelX}
+                y={labelY}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize="13"
+                fontWeight="700"
+                style={{ pointerEvents: "none" }}
+                fill={contrastOn(fill)}>
+                {items[i]}
+              </text>
+            </g>
+          ))}
+        </svg>
+
+        {/* Pointer */}
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
+          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[18px] border-l-transparent border-r-transparent border-b-rose-600 drop-shadow-lg" />
+        </div>
       </div>
-      <button
-        onClick={spinWheel}
-        disabled={isSpinning}
-        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50">
-        {isSpinning ? "Spinning..." : "Spin"}
-      </button>
+
+      <div className="mt-4 flex items-center gap-2">
+        <button
+          onClick={spin}
+          disabled={isSpinning || items.length < 2}
+          className="btn-primary"
+          aria-disabled={isSpinning || items.length < 2}>
+          {isSpinning ? "Spinning…" : "Spin"}
+        </button>
+        <span className="text-sm text-gray-600">
+          {items.length < 2
+            ? "Add at least 2 items"
+            : "Press Space/Enter to spin"}
+        </span>
+      </div>
     </div>
   );
 }
