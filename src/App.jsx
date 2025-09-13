@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import spinSound from "../public/spin-sound.mp3";
+import spinSound from "./sound/spin-sound.mp3";
 const funFacts = {
   Pizza:
     "Did you know? The first pizza was made in Naples, Italy, in the 1700s!",
