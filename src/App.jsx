@@ -158,21 +158,35 @@ export default function App() {
         {/* Input & top actions card */}
         <section className="card p-4 sm:p-6">
           {/* Row 1: input + Add + right actions (Share/Export/Import MOVED DOWN, see Items card) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-            <div className="lg:col-span-3 flex gap-2">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type an item and press Enter"
-                className="input flex-1"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") addItem();
-                }}
-              />
-              <button onClick={addItem} className="btn-primary">
-                Add
-              </button>
-            </div>
+          <div className="lg:col-span-3 flex gap-2">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type an item and press Enter"
+              className="input flex-1"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") addItem();
+              }}
+            />
+            <button
+              onClick={addItem}
+              className="px-5 py-2.5 rounded-xl text-white
+               bg-gradient-to-r from-indigo-600 to-violet-600
+               hover:from-indigo-500 hover:to-violet-500
+               shadow-[0_10px_25px_rgba(79,70,229,0.35)]
+               focus:outline-none focus:ring-2 focus:ring-indigo-300
+               flex items-center gap-2"
+              title="Add item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 5v14M5 12h14"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+              Add
+            </button>
           </div>
 
           {/* Row 2: Duration / Spins / Sound toggle */}
@@ -340,8 +354,8 @@ export default function App() {
         )}
 
         <footer className="mt-10 mb-6 text-xs text-center text-gray-500">
-          Built with React + Vite + Tailwind • Fair crypto RNG • Confetti •
-          PWA-ready
+          Built by{" "}
+          <span className="font-semibold text-indigo-700">DevFayzullo</span>
         </footer>
       </div>
     </div>

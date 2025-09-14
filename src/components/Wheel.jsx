@@ -1,16 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  cryptoRandomInt,
-  pickIndexFair,
-  contrastOn,
-  PALETTE,
-} from "../utils/wheel";
+import { cryptoRandomInt, contrastOn, PALETTE } from "../utils/wheel";
 
-/** Wheel:
- * - SVG slices for crisp rendering
- * - Space/Enter to spin
- * - onSpinStart: callback to start sounds
- */
+/** Wheel with bottom pointer and centered spin control */
 export default function Wheel({
   items,
   onFinish,
@@ -26,9 +17,9 @@ export default function Wheel({
 
   const sliceAngle = 360 / Math.max(items.length || 1, 1);
 
-  // Build slice paths and labels
+  // Build slice paths & labels (crisp SVG)
   const slices = useMemo(() => {
-    const radius = 180; // bigger wheel
+    const radius = 180;
     const result = [];
     for (let i = 0; i < items.length; i++) {
       const start = (i * sliceAngle - 90) * (Math.PI / 180);
@@ -49,12 +40,23 @@ export default function Wheel({
     return result;
   }, [items.length, sliceAngle]);
 
+  /** Map final rotation to index when the pointer is at the BOTTOM.
+   *  We keep the original “pointer-at-top” mapping but shift by +180°.
+   */
+  function indexForEndAngle(endDeg) {
+    const offset = ((endDeg % 360) + 360) % 360; // 0..359
+    const pointerAtTopDeg = (offset + 180) % 360; // shift because pointer at bottom
+    const slice = 360 / items.length;
+    const idx = Math.floor(((360 - pointerAtTopDeg) % 360) / slice);
+    return idx;
+  }
+
   function nextAngleAvoidingRepeat() {
     if (items.length < 2) return angle + 360 * spins + cryptoRandomInt(360);
     for (let t = 0; t < 10; t++) {
       const rand = cryptoRandomInt(360);
       const end = angle + 360 * spins + rand;
-      const idx = pickIndexFair(items.length, end % 360);
+      const idx = indexForEndAngle(end);
       if (
         !preventImmediateRepeat ||
         lastIndexRef.current === null ||
@@ -72,14 +74,13 @@ export default function Wheel({
     setIsSpinning(true);
     setAngle(endAngle);
 
-    // notify parent to start audio
     onSpinStart?.();
 
     if (wheelRef.current) {
       wheelRef.current.style.transition = `transform ${durationMs}ms cubic-bezier(.1,.9,.2,1)`;
       wheelRef.current.style.transform = `rotate(${endAngle}deg)`;
     }
-    const finalIdx = pickIndexFair(items.length, endAngle % 360);
+    const finalIdx = indexForEndAngle(endAngle);
     const result = items[finalIdx];
     lastIndexRef.current = finalIdx;
 
@@ -89,7 +90,7 @@ export default function Wheel({
     }, durationMs);
   };
 
-  // keyboard
+  // Space/Enter support
   useEffect(() => {
     const onKey = (e) => {
       if ((e.key === " " || e.key === "Enter") && !isSpinning) {
@@ -103,7 +104,7 @@ export default function Wheel({
 
   return (
     <div className="relative select-none">
-      <div className="relative w-80 h-80 sm:w-96 sm:h-96">
+      <div className="relative w-80 h-80 sm:w-96 sm:h-96 mx-auto">
         <svg
           className="w-full h-full drop-shadow-xl"
           viewBox="-200 -200 400 400"
@@ -136,17 +137,22 @@ export default function Wheel({
           ))}
         </svg>
 
-        {/* Pointer */}
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
-          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[18px] border-l-transparent border-r-transparent border-b-rose-600 drop-shadow-lg" />
+        {/* Pointer at the BOTTOM (pointing up) */}
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-10">
+          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[18px] border-l-transparent border-r-transparent border-t-rose-600 drop-shadow-lg" />
         </div>
       </div>
 
-      <div className="mt-4 flex items-center gap-2">
+      {/* Centered spin control */}
+      <div className="mt-5 flex flex-col items-center gap-2">
         <button
           onClick={spin}
           disabled={isSpinning || items.length < 2}
-          className="btn-primary"
+          className="px-6 py-3 rounded-xl text-white disabled:opacity-50
+                     bg-gradient-to-r from-indigo-600 to-violet-600
+                     hover:from-indigo-500 hover:to-violet-500
+                     shadow-[0_10px_25px_rgba(79,70,229,0.35)]
+                     focus:outline-none focus:ring-2 focus:ring-indigo-300"
           aria-disabled={isSpinning || items.length < 2}>
           {isSpinning ? "Spinning…" : "Spin"}
         </button>
