@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { cryptoRandomInt, contrastOn, PALETTE } from "../utils/wheel";
 
-/** Wheel with bottom pointer and centered spin control */
 export default function Wheel({
   items,
   onFinish,
-  onSpinStart, // start audio outside
+  onSpinStart,
   durationMs = 4000,
   spins = 5,
   preventImmediateRepeat = true,
@@ -17,7 +16,6 @@ export default function Wheel({
 
   const sliceAngle = 360 / Math.max(items.length || 1, 1);
 
-  // Build slice paths & labels (crisp SVG)
   const slices = useMemo(() => {
     const radius = 180;
     const result = [];
@@ -40,14 +38,13 @@ export default function Wheel({
     return result;
   }, [items.length, sliceAngle]);
 
-  /** Map final rotation to index when the pointer is at the BOTTOM.
-   *  We keep the original “pointer-at-top” mapping but shift by +180°.
+  /** Pointer is at TOP (pointing down).
+   * No extra 180° shift needed.
    */
   function indexForEndAngle(endDeg) {
-    const offset = ((endDeg % 360) + 360) % 360; // 0..359
-    const pointerAtTopDeg = (offset + 180) % 360; // shift because pointer at bottom
+    const offset = ((endDeg % 360) + 360) % 360;
     const slice = 360 / items.length;
-    const idx = Math.floor(((360 - pointerAtTopDeg) % 360) / slice);
+    const idx = Math.floor(((360 - offset) % 360) / slice);
     return idx;
   }
 
@@ -90,7 +87,6 @@ export default function Wheel({
     }, durationMs);
   };
 
-  // Space/Enter support
   useEffect(() => {
     const onKey = (e) => {
       if ((e.key === " " || e.key === "Enter") && !isSpinning) {
@@ -137,9 +133,13 @@ export default function Wheel({
           ))}
         </svg>
 
-        {/* Pointer at the BOTTOM (pointing up) */}
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-10">
-          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[18px] border-l-transparent border-r-transparent border-t-rose-600 drop-shadow-lg" />
+        {/* Pointer at the TOP (pointing down) */}
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
+          <div
+            className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[18px] 
+                       border-l-transparent border-r-transparent 
+                       border-b-rose-600 drop-shadow-lg rotate-180"
+          />
         </div>
       </div>
 
