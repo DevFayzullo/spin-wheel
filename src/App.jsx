@@ -355,7 +355,9 @@ export default function App() {
 
         <footer className="mt-10 mb-6 text-xs text-center text-gray-500">
           Built by{" "}
-          <span className="font-semibold text-indigo-700">DevFayzullo</span>
+          <span className="font-semibold text-indigo-700">
+            <a href="http://devfayzullo.life">DevFayzullo</a>
+          </span>
         </footer>
       </div>
     </div>
