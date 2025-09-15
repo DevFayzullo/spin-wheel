@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Soft page background gradient + subtle noise */
 body {
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
     sans-serif;
@@ -10,7 +9,6 @@ body {
     linear-gradient(180deg, #f4f6ff 0%, #efeefe 100%);
 }
 
-/* Glassmorphism cards */
 .card {
   @apply bg-white/80 backdrop-blur-md shadow-[0_10px_30px_rgba(31,38,135,0.12)] rounded-2xl;
 }
