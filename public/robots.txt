@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /dist/
+Disallow: /build/
+
+Sitemap: https://DevFayzullo.github.io/spin-wheel/sitemap.xml
