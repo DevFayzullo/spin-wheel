@@ -39,9 +39,9 @@ npm install
 npm run dev
 ```
 
-<!-- ## 🌐 Live Demo
+## 🌐 Live Demo
 
-👉 [Click here to view the live demo](https://DevFayzullo.github.io/spin-wheel) -->
+👉 [Click here to view the live demo](https://DevFayzullo.github.io/spin-wheel)
 
 ## 🛠️ Tech Stack
 

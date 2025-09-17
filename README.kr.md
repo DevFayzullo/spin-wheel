@@ -40,9 +40,9 @@ npm install
 npm run dev
 ```
 
-<!-- ## 🌐 라이브 데모
+## 🌐 라이브 데모
 
-👉 [라이브 데모 보러가기](https://DevFayzullo.github.io/spin-wheel) -->
+👉 [라이브 데모 보러가기](https://DevFayzullo.github.io/spin-wheel)
 
 ## 🛠️ 기술 스택
 
