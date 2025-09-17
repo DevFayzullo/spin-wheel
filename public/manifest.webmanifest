@@ -10,17 +10,17 @@
   "description": "Spin the Wheel – interactive prize game. Try your luck and win amazing rewards instantly!",
   "icons": [
     {
-      "src": "/spin-wheel/icons/icon-192.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/spin-wheel/icons/icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/spin-wheel/icons/icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
