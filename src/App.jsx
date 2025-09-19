@@ -7,7 +7,7 @@ import {
 } from "./utils/wheel";
 import confetti from "canvas-confetti";
 import html2canvas from "html2canvas";
-import spinSound from "./sound/spin-sound.mp3"; // add your audio file here
+import spinSound from "./sound/spin-sound.mp3"; 
 
 const defaultItems = ["Pizza", "Burger", "Donut", "Coffee", "Gift", "iPhone"];
 
