@@ -61,6 +61,20 @@
     <meta
       name="google-site-verification"
       content="Nx3lcROcTRxl7nPABRmvzQsBn25ncU0UiI2vf4RmWa8" />
+
+    <script>
+      try {
+        const stored = localStorage.getItem("theme");
+        const systemDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        if (stored === "dark" || (!stored && systemDark)) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body class="font-sans">
     <div id="root"></div>
