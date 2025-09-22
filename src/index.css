@@ -9,26 +9,48 @@ body {
     linear-gradient(180deg, #f4f6ff 0%, #efeefe 100%);
 }
 
+/* Dark mode body background */
+.dark body {
+  background: radial-gradient(1200px 600px at 50% -100px, #1f2937, transparent),
+    linear-gradient(180deg, #111827 0%, #1f2937 100%);
+}
+
 .card {
   @apply bg-white/80 backdrop-blur-md shadow-[0_10px_30px_rgba(31,38,135,0.12)] rounded-2xl;
 }
 
+/* Dark mode card */
+.dark .card {
+  @apply bg-gray-800/70 text-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.6)];
+}
+
 .btn {
-  @apply px-4 py-2 rounded-lg border bg-white hover:bg-gray-50 transition;
+  @apply px-4 py-2 rounded-lg border bg-white hover:bg-gray-50 transition text-gray-800;
+}
+
+/* Dark mode button */
+.dark .btn {
+  @apply bg-gray-700 text-gray-100 border-gray-600 hover:bg-gray-600;
 }
 
 .btn-primary {
   @apply bg-indigo-600 text-white hover:bg-indigo-700 border-transparent shadow-md;
 }
 
+/* Dark mode primary button */
+.dark .btn-primary {
+  @apply bg-indigo-500 hover:bg-indigo-400 text-white;
+}
+
 .input {
-  @apply border p-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400;
+  @apply border p-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-gray-800;
+}
+
+/* Dark mode input */
+.dark .input {
+  @apply bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400;
 }
 
 :focus-visible {
   outline: none;
-}
-
-* {
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
