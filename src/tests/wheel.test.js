@@ -7,9 +7,8 @@ describe("pickIndexFair", () => {
     expect(idx).toBe(0);
   });
   it("respects slice boundaries", () => {
-    // 6 slices => 60deg each
     expect(pickIndexFair(6, 10)).toBe(0);
     expect(pickIndexFair(6, 59.9)).toBe(0);
-    expect(pickIndexFair(6, 60)).toBe(5); // wrap logic due to pointer inversion
+    expect(pickIndexFair(6, 60)).toBe(5); 
   });
 });
