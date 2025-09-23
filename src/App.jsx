@@ -1,4 +1,5 @@
 import ThemeToggle from "./components/ThemeToggle";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useEffect, useRef, useState } from "react";
 import Wheel from "./components/Wheel";
 import {
@@ -6,6 +7,7 @@ import {
   readItemsFromQuery,
   stripItemsFromUrl,
 } from "./utils/wheel";
+import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import html2canvas from "html2canvas";
 import spinSound from "./sound/spin-sound.mp3";
@@ -13,6 +15,8 @@ import spinSound from "./sound/spin-sound.mp3";
 const defaultItems = ["Pizza", "Burger", "Donut", "Coffee", "Gift", "iPhone"];
 
 export default function App() {
+  const { t } = useTranslation();
+
   // Initial: URL items > localStorage > defaults
   const initial =
     readItemsFromQuery() ||
@@ -48,6 +52,7 @@ export default function App() {
     localStorage.setItem("history", JSON.stringify(history));
   }, [history]);
 
+  // Actions: items
   function addItem() {
     const v = input.trim();
     if (!v) return;
@@ -61,7 +66,6 @@ export default function App() {
   function removeItem(idx) {
     setItems((prev) => prev.filter((_, i) => i !== idx));
   }
-
   function clearAllItems() {
     setItems([]);
     try {
@@ -95,15 +99,14 @@ export default function App() {
     setHistory((prev) => [result, ...prev]);
     if (liveRegionRef.current)
       liveRegionRef.current.textContent = `Result: ${result}`;
-    // Confetti burst
     confetti({ particleCount: 140, spread: 70, origin: { y: 0.35 } });
   }
 
-  // Actions
+  // Utilities
   function shareLink() {
     const url = encodeItemsToQuery(items);
     navigator.clipboard?.writeText(url);
-    alert("Sharable link copied to clipboard!");
+    alert(t("alertShare"));
   }
   function exportTxt() {
     const blob = new Blob([items.join("\n")], {
@@ -131,7 +134,6 @@ export default function App() {
   }
 
   async function saveResultImage() {
-    // capture the result card (if visible)
     if (!resultCardRef.current) return;
     const canvas = await html2canvas(resultCardRef.current, {
       backgroundColor: null,
@@ -146,32 +148,33 @@ export default function App() {
 
   return (
     <>
-      {/* Theme toggle button (top-right) */}
-      <div className="fixed right-4 top-4 z-50">
+      {/* Top-right controls (Lang + Theme) */}
+      <div className="fixed right-4 top-4 z-50 flex gap-2">
+        <LanguageSwitcher />
         <ThemeToggle />
       </div>
 
       <div className="min-h-screen flex flex-col items-center px-4 bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-        {/* Page container with generous top margin */}
+        {/* Page container */}
         <div className="mt-12 w-full max-w-5xl">
           {/* Header */}
           <header className="text-center mb-6">
             <h1 className="text-4xl font-bold text-indigo-700 dark:text-indigo-300">
-              🎡 Spin Wheel
+              {t("title")}
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-2">
-              Fair spins, clean design, and shareable lists.
+              {t("subtitle")}
             </p>
           </header>
 
           {/* Input & top actions card */}
           <section className="card p-4 sm:p-6">
-            {/* Row 1: input + Add + right actions */}
+            {/* Row 1: input + Add */}
             <div className="lg:col-span-3 flex gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Type an item and press Enter"
+                placeholder={t("inputPlaceholder")}
                 className="input flex-1"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") addItem();
@@ -185,8 +188,13 @@ export default function App() {
                shadow-[0_10px_25px_rgba(79,70,229,0.35)]
                focus:outline-none focus:ring-2 focus:ring-indigo-300
                flex items-center gap-2"
-                title="Add item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                title={t("addTitle")}>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true">
                   <path
                     d="M12 5v14M5 12h14"
                     stroke="white"
@@ -194,7 +202,7 @@ export default function App() {
                     strokeLinecap="round"
                   />
                 </svg>
-                Add
+                {t("add")}
               </button>
             </div>
 
@@ -202,7 +210,7 @@ export default function App() {
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <label className="flex items-center gap-2 text-sm">
                 <span className="text-gray-700 dark:text-gray-200 font-medium">
-                  Duration (ms)
+                  {t("duration")}
                 </span>
                 <input
                   type="number"
@@ -217,7 +225,7 @@ export default function App() {
 
               <label className="flex items-center gap-2 text-sm">
                 <span className="text-gray-700 dark:text-gray-200 font-medium">
-                  Spins
+                  {t("spins")}
                 </span>
                 <input
                   type="number"
@@ -233,15 +241,15 @@ export default function App() {
                 onClick={() => setMuted((m) => !m)}
                 className="btn"
                 aria-pressed={muted}
-                title={muted ? "Unmute sound" : "Mute sound"}>
-                {muted ? "🔇 Sound off" : "🔊 Sound on"}
+                title={muted ? t("muteTitleOff") : t("muteTitleOn")}>
+                {muted ? t("soundOff") : t("soundOn")}
               </button>
 
               <div className="ml-auto">
                 <button
                   onClick={clearAllItems}
                   className="text-sm text-red-600 hover:underline">
-                  Clear all items
+                  {t("clearAllItems")}
                 </button>
               </div>
             </div>
@@ -251,7 +259,7 @@ export default function App() {
           <section className="card p-4 sm:p-6 mt-6">
             <div className="flex justify-between items-center mb-2">
               <div className="font-semibold text-gray-700 dark:text-gray-200">
-                Items ({items.length})
+                {t("items", { count: items.length })}
               </div>
             </div>
 
@@ -274,7 +282,7 @@ export default function App() {
                 ))}
                 {items.length === 0 && (
                   <span className="text-sm text-gray-500 dark:text-gray-400">
-                    No items yet. Add some above.
+                    {t("noItems")}
                   </span>
                 )}
               </div>
@@ -285,13 +293,13 @@ export default function App() {
             {/* Actions */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button onClick={shareLink} className="btn text-sm">
-                Share link
+                {t("shareLink")}
               </button>
               <button onClick={exportTxt} className="btn text-sm">
-                Export .txt
+                {t("exportTxt")}
               </button>
               <label className="btn text-sm cursor-pointer">
-                Import
+                {t("import")}
                 <input
                   type="file"
                   accept=".txt,.csv"
@@ -315,7 +323,7 @@ export default function App() {
             </div>
           </section>
 
-          {/* Live region */}
+          {/* Live region (a11y) */}
           <div aria-live="polite" className="sr-only" ref={liveRegionRef} />
 
           {/* Result */}
@@ -324,7 +332,7 @@ export default function App() {
               ref={resultCardRef}
               className="card p-4 sm:p-6 mt-6 text-center">
               <div className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-                🎉 Result: {selected}
+                {t("result", { value: selected })}
               </div>
               <div className="mt-3 flex gap-2 justify-center">
                 <button
@@ -332,13 +340,13 @@ export default function App() {
                     navigator.clipboard?.writeText(`Result: ${selected}`);
                   }}
                   className="btn">
-                  Copy result
+                  {t("copyResult")}
                 </button>
                 <button onClick={saveResultImage} className="btn">
-                  Save as image
+                  {t("saveAsImage")}
                 </button>
                 <button onClick={() => setSelected(null)} className="btn">
-                  Clear
+                  {t("clear")}
                 </button>
               </div>
             </section>
@@ -349,12 +357,12 @@ export default function App() {
             <section className="card p-4 sm:p-6 mt-6">
               <div className="flex justify-between items-center mb-2">
                 <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  📜 History
+                  {t("history")}
                 </h2>
                 <button
                   onClick={clearHistory}
                   className="text-sm text-red-600 hover:underline">
-                  Clear history
+                  {t("clearHistory")}
                 </button>
               </div>
               <ul className="list-disc list-inside bg-gray-50/70 dark:bg-gray-800/50 p-4 rounded-lg max-h-64 overflow-auto">
@@ -365,8 +373,9 @@ export default function App() {
             </section>
           )}
 
+          {/* Footer */}
           <footer className="mt-10 mb-6 text-xs text-center text-gray-500 dark:text-gray-400">
-            Built by{" "}
+            {t("builtBy")}{" "}
             <span className="font-semibold text-indigo-700 dark:text-indigo-300">
               <a href="http://devfayzullo.life">DevFayzullo</a>
             </span>
