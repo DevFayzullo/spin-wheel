@@ -22,7 +22,7 @@
 
 ## 📸 미리보기
 
-![screenshot](./public/screenshot.png)
+![screenshot](./public/screenshot-kr.png)
 
 ## 🚀 시작하기
 
