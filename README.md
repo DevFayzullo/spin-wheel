@@ -7,13 +7,17 @@ Built with **Vite** and styled using **Tailwind CSS**, this project delivers a p
 
 ## 🧠 Features
 
-- Add custom items dynamically
-- Smooth spinning animation with sound effect
-- Fun facts for each winning item
-- Result history with clear option
-- Fully responsive (mobile & desktop)
-- Built with **Vite** for fast development
-- Styled with **Tailwind CSS** utility-first classes
+- ➕ Add custom items dynamically
+- 🎶 Smooth spinning animation with sound effect
+- 📜 Result history with clear option
+- 📤 Shareable link for your items list
+- 📂 Export/Import items as `.txt` file
+- 📸 Save result as an image
+- 🌗 Dark/Light mode toggle
+- 🌍 Multi-language support: **EN, UZ, KO, RU**
+- 📱 Fully responsive (mobile & desktop)
+- ⚡ Built with **Vite** for fast development
+- 🎨 Styled with **Tailwind CSS** utility-first classes
 
 ## 📸 Preview
 
@@ -49,6 +53,8 @@ npm run dev
 - **Vite**
 - **Tailwind CSS 4**
 - **JavaScript (ES6+)**
+- **react-i18next** (multi-language support)
+- **canvas-confetti**, **html2canvas**
 - **ESLint**
 - **gh-pages** (for deployment)
 
