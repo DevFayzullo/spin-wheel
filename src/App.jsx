@@ -148,11 +148,25 @@ export default function App() {
 
   return (
     <>
-      {/* Top-right controls (Lang + Theme) */}
-      <div className="fixed right-4 top-4 z-50 flex gap-2">
-        <LanguageSwitcher />
-        <ThemeToggle />
-      </div>
+      <header
+        className="
+    sticky top-0 inset-x-0 z-50
+    border-b border-gray-200 dark:border-gray-800
+    bg-white/80 dark:bg-gray-900/80
+    backdrop-blur supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-gray-900/60
+    pt-[env(safe-area-inset-top)]
+  ">
+        <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between gap-3">
+          <div className="font-semibold text-gray-800 dark:text-gray-100">
+            Spin Wheel
+          </div>
+
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
 
       <div className="min-h-screen flex flex-col items-center px-4 bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
         {/* Page container */}
