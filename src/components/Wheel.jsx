@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cryptoRandomInt, contrastOn, PALETTE } from "../utils/wheel";
 
 export default function Wheel({
@@ -38,9 +38,6 @@ export default function Wheel({
     return result;
   }, [items.length, sliceAngle]);
 
-  /** Pointer is at TOP (pointing down).
-   * No extra 180° shift needed.
-   */
   function indexForEndAngle(endDeg) {
     const offset = ((endDeg % 360) + 360) % 360;
     const slice = 360 / items.length;
@@ -133,7 +130,6 @@ export default function Wheel({
           ))}
         </svg>
 
-        {/* Pointer at the TOP (pointing down) */}
         <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
           <div
             className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[18px] 

@@ -4,7 +4,6 @@ export default function ThemeToggle({ className = "" }) {
   const [theme, setTheme] = useState(() => {
     const stored = localStorage.getItem("theme");
     if (stored) return stored;
-    // default to system
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   });
 
@@ -19,7 +18,6 @@ export default function ThemeToggle({ className = "" }) {
     }
   }, [theme]);
 
-  // Listen for system changes and update if user hasn't explicitly chosen
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = (e) => {
