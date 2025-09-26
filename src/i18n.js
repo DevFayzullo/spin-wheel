@@ -33,8 +33,9 @@ const resources = {
   },
   uz: {
     translation: {
-      title: "🎡 Aylantirish g‘ildiragi",
-      subtitle: "Adolatli aylantirish, toza dizayn va bo‘lishish oson ro‘yxat.",
+      title: "🎡 Charxpalak",
+      subtitle:
+        "Haqqoniy aylantirish, toza dizayn va ulashish oson bo'lgan ro‘yxat.",
       add: "Qo‘shish",
       duration: "Davomiylik (ms)",
       spins: "Aylanishlar",
