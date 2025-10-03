@@ -2,6 +2,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useEffect, useRef, useState } from "react";
 import Wheel from "./components/Wheel";
+import ResultDialog from "./components/ResultDialog";
 import {
   encodeItemsToQuery,
   readItemsFromQuery,
@@ -70,7 +71,7 @@ export default function App() {
     setItems([]);
     try {
       localStorage.setItem("items", JSON.stringify([]));
-    } catch {}
+    } catch { }
     stripItemsFromUrl(); // prevent URL from re-populating after refresh
   }
   function clearHistory() {
@@ -83,13 +84,13 @@ export default function App() {
     try {
       audioRef.current?.pause();
       audioRef.current.currentTime = 0;
-      audioRef.current?.play().catch(() => {});
-    } catch {}
+      audioRef.current?.play().catch(() => { });
+    } catch { }
   }
   function stopSpinSound() {
     try {
       audioRef.current?.pause();
-    } catch {}
+    } catch { }
   }
 
   // Finish handler with confetti
@@ -341,30 +342,14 @@ export default function App() {
           <div aria-live="polite" className="sr-only" ref={liveRegionRef} />
 
           {/* Result */}
-          {selected && (
-            <section
-              ref={resultCardRef}
-              className="card p-4 sm:p-6 mt-6 text-center">
-              <div className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-                {t("result", { value: selected })}
-              </div>
-              <div className="mt-3 flex gap-2 justify-center">
-                <button
-                  onClick={() => {
-                    navigator.clipboard?.writeText(`Result: ${selected}`);
-                  }}
-                  className="btn">
-                  {t("copyResult")}
-                </button>
-                <button onClick={saveResultImage} className="btn">
-                  {t("saveAsImage")}
-                </button>
-                <button onClick={() => setSelected(null)} className="btn">
-                  {t("clear")}
-                </button>
-              </div>
-            </section>
-          )}
+          <ResultDialog
+            result={selected}
+            onCopy={() => navigator.clipboard?.writeText(`Result: ${selected}`)}
+            onSave={saveResultImage}
+            onClose={() => setSelected(null)}
+            resultRef={resultCardRef}
+          />
+
 
           {/* History */}
           {history.length > 0 && (
