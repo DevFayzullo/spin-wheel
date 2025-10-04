@@ -68,4 +68,4 @@ This project is licensed under the **MIT License**
 
 > “Luck is what happens when preparation meets opportunity.” – Seneca
 
-Spin and win!! 🎯
+Spin and win!!! 🎯
