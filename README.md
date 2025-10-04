@@ -1,4 +1,4 @@
-# 🎡 Custom Spin Wheel
+ # 🎡 Custom Spin Wheel
 
 [🇰🇷 한국어 README](./README.kr.md)
 
@@ -68,4 +68,4 @@ This project is licensed under the **MIT License**
 
 > “Luck is what happens when preparation meets opportunity.” – Seneca
 
-Spin and win! 🎯
+Spin and win!! 🎯
