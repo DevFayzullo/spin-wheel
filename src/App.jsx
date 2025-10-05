@@ -17,7 +17,6 @@ const defaultItems = ["Pizza", "Burger", "Donut", "Coffee", "Gift", "iPhone"];
 export default function App() {
   const { t } = useTranslation();
 
-  // Initial: URL items > localStorage > defaults
   const initial =
     readItemsFromQuery() ||
     JSON.parse(localStorage.getItem("items") || "null") ||
@@ -36,12 +35,10 @@ export default function App() {
   const liveRegionRef = useRef(null);
   const resultCardRef = useRef(null);
 
-  // Sound setup
   const audioRef = useRef(null);
   useEffect(() => {
     const a = new Audio(spinSound);
-    a.loop = true; // loop while spinning
-    audioRef.current = a;
+    a.loop = true; // loop while spinningnt = a;
   }, []);
 
   // Persist
