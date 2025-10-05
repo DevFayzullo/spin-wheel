@@ -217,7 +217,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* Row 2: Duration / Spins / Sound toggle */}
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <label className="flex items-center gap-2 text-sm">
                 <span className="text-gray-700 dark:text-gray-200 font-medium">
@@ -266,7 +265,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Items card */}
           <section className="card p-4 sm:p-6 mt-6">
             <div className="flex justify-between items-center mb-2">
               <div className="font-semibold text-gray-700 dark:text-gray-200">
@@ -274,7 +272,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Chips */}
             <div className="min-h-[48px]">
               <div className="flex flex-wrap gap-2">
                 {items.map((it, i) => (
@@ -301,7 +298,6 @@ export default function App() {
 
             <div className="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4" />
 
-            {/* Actions */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button onClick={shareLink} className="btn text-sm">
                 {t("shareLink")}
@@ -321,7 +317,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Wheel */}
           <section className="card p-6 mt-6">
             <div className="flex justify-center">
               <Wheel
@@ -334,10 +329,8 @@ export default function App() {
             </div>
           </section>
 
-          {/* Live region (a11y) */}
           <div aria-live="polite" className="sr-only" ref={liveRegionRef} />
 
-          {/* Result */}
           {selected && (
             <section
               ref={resultCardRef}
@@ -363,7 +356,6 @@ export default function App() {
             </section>
           )}
 
-          {/* History */}
           {history.length > 0 && (
             <section className="card p-4 sm:p-6 mt-6">
               <div className="flex justify-between items-center mb-2">
@@ -384,7 +376,6 @@ export default function App() {
             </section>
           )}
 
-          {/* Footer */}
           <footer className="mt-10 mb-6 text-xs text-center text-gray-500 dark:text-gray-400">
             {t("builtBy")}{" "}
             <span className="font-semibold text-indigo-700 dark:text-indigo-300">
