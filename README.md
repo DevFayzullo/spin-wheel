@@ -14,7 +14,7 @@ Built with **Vite** and styled using **Tailwind CSS**, this project delivers a p
 - 📂 Export/Import items as `.txt` file
 - 📸 Save result as an image
 - 🌗 Dark/Light mode toggle
-- 🌍 Multi-language support: **EN, UZ, KO, RU**
+- 🌍 Multi-language support: **EN, UZ, KO, RU, ES**
 - 📱 Fully responsive (mobile & desktop)
 - ⚡ Built with **Vite** for fast development
 - 🎨 Styled with **Tailwind CSS** utility-first classes
